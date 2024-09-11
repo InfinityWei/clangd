@@ -105,6 +105,8 @@ jobs:
       with:
         name:
           env
+        path:
+          env
     - name: Set environment variables
       run: |
         cat env/commit.env >> $GITHUB_ENV

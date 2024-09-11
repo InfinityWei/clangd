@@ -87,7 +87,7 @@ jobs:
         echo "RELEASE_NAME=${{ github.event.inputs.release_name }}" >> commit.env
         echo "RELEASE_DESCRIPTION=${{ github.event.inputs.description }}" >> commit.env
     - name: Upload result
-      uses: actions/@v2
+      uses: actions/upload-artifact@v3
       with:
         name: env
         path: commit.env

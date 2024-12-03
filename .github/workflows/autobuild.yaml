@@ -39,7 +39,7 @@ jobs:
       run: |
         sudo apt-get install jq
     - name: Clone scripts
-      uses: InfinityWei/checkout@v2
+      uses: taiki-e/checkout-action@v1
     # Choose the commit to build a release from.
     #
     # We want to avoid unbuildable revisions: choose the last green from CI.
@@ -200,7 +200,7 @@ jobs:
     container: ${{ matrix.config.container }}
     steps:
     - name: Clone scripts
-      uses: InfinityWei/checkout@v2
+      uses: taiki-e/checkout-action@v1
       with: { ref: master }
     - name: Install tools
       run: ${{ matrix.config.preinstall }}
@@ -218,7 +218,7 @@ jobs:
           }
         }
     - name: Clone gRPC
-      uses: InfinityWei/checkout@v2
+      uses: taiki-e/checkout-action@v1
       with:
         repository: grpc/grpc
         path: grpc
@@ -269,7 +269,7 @@ jobs:
         echo "CLANGD_DIR=clangd_${{ env.TAG_NAME }}" >> $GITHUB_ENV
       shell: bash
     - name: Clone LLVM
-      uses: InfinityWei/checkout@v2
+      uses: taiki-e/checkout-action@v1
       with:
         repository: ${{ env.LLVM_REPO }}
         path: llvm-project

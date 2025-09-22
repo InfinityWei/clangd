@@ -163,7 +163,7 @@ jobs:
           binary_extension: ".exe"
         - name: mac
           os: macos-13
-          preinstall: brew install ninja zlib p7zip cmake
+          preinstall: brew install ninja zlib p7zip
           cflags: -O3 -gline-tables-only -DNDEBUG
           cmake: >-
             "-DCMAKE_C_COMPILER=clang"

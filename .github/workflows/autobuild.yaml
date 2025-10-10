@@ -171,7 +171,6 @@ jobs:
             "-DLLVM_ENABLE_ZLIB=FORCE_ON"
             "-DCMAKE_OSX_ARCHITECTURES=x86_64;arm64"
             "-DCMAKE_OSX_DEPLOYMENT_TARGET=10.13"
-            "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
           # BoringSSL doesn't support universal binaries when building with ASM.
           grpc_cmake: >-
             "-DOPENSSL_NO_ASM=ON"
@@ -228,7 +227,7 @@ jobs:
         # We use the same version of gRPC for LLVM's clangd-ubuntu-tsan
         # buildbot.
         # https://github.com/llvm/llvm-zorg/blob/main/buildbot/google/docker/buildbot-clangd-ubuntu-clang/Dockerfile
-        ref: v1.36.3
+        ref: v1.75.1
         submodules: recursive
     - name: Build gRPC
       run: >

@@ -162,7 +162,7 @@ jobs:
             "-DgRPC_MSVC_STATIC_RUNTIME=ON"
           binary_extension: ".exe"
         - name: mac
-          os: macos-13
+          os: macos-14
           preinstall: brew install ninja zlib p7zip
           cflags: -O3 -gline-tables-only -DNDEBUG
           cmake: >-

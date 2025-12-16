@@ -199,7 +199,6 @@ jobs:
           # libraries. All other gRPC dependencies can be built from sources.
           grpc_cmake: >-
             "-DgRPC_CARES_PROVIDER=package"
-          grpc_cflags: -DABSL_RANDOM_USE_GET_ENTROPY=0
     runs-on: ${{ matrix.config.os }}
     container: ${{ matrix.config.container }}
     steps:
@@ -235,7 +234,7 @@ jobs:
       if: matrix.config.name == 'linux'
       shell: bash
       run: |
-        sed -i 's/#if defined(ABSL_RANDOM_USE_GET_ENTROPY)/#if ABSL_RANDOM_USE_GET_ENTROPY/' grpc/third_party/abseil-cpp/absl/random/internal/seed_material.cc
+        sed -i 's/#define ABSL_RANDOM_USE_GET_ENTROPY 1/#define ABSL_RANDOM_USE_GET_ENTROPY_FALSE 1/' grpc/third_party/abseil-cpp/absl/random/internal/seed_material.cc
     - name: Build gRPC
       run: >
         mkdir $HOME/grpc-installation
@@ -246,8 +245,8 @@ jobs:
         "-DgRPC_INSTALL=ON"
         "-DCMAKE_INSTALL_PREFIX=$HOME/grpc-installation"
         "-DCMAKE_BUILD_TYPE=Release"
-        "-DCMAKE_C_FLAGS_RELEASE=${{ matrix.config.cflags }} ${{ matrix.config.grpc_cflags }}"
-        "-DCMAKE_CXX_FLAGS_RELEASE=${{ matrix.config.cflags }} ${{ matrix.config.grpc_cflags }}"
+        "-DCMAKE_C_FLAGS_RELEASE=${{ matrix.config.cflags }}"
+        "-DCMAKE_CXX_FLAGS_RELEASE=${{ matrix.config.cflags }}"
         ${{ matrix.config.grpc_cmake }} ${{ matrix.config.cmake }}
 
         ninja -C grpc-build install

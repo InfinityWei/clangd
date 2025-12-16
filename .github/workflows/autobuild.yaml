@@ -235,7 +235,7 @@ jobs:
       if: matrix.config.name == 'linux'
       shell: bash
       run: |
-        sed 's/#if defined(ABSL_RANDOM_USE_GET_ENTROPY)/#if ABSL_RANDOM_USE_GET_ENTROPY/' grpc/third_party/abseil-cpp/absl/random/internal/seed_material.cc
+        sed -i 's/#if defined(ABSL_RANDOM_USE_GET_ENTROPY)/#if ABSL_RANDOM_USE_GET_ENTROPY/' grpc/third_party/abseil-cpp/absl/random/internal/seed_material.cc
     - name: Build gRPC
       run: >
         mkdir $HOME/grpc-installation

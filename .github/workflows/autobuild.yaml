@@ -301,6 +301,7 @@ jobs:
         "-DCMAKE_CXX_FLAGS_RELEASE=${{ matrix.config.cflags }}"
         "-DCLANGD_ENABLE_REMOTE=ON"
         "-DLLVM_ENABLE_ZSTD=OFF"
+        "-Dabsl_DIR=$HOME/grpc-installation/lib/cmake/absl"
         "-DGRPC_INSTALL_PATH=$HOME/grpc-installation"
         ${{ matrix.config.cmake }}
     - name: Ninja

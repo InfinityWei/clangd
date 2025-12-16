@@ -231,12 +231,17 @@ jobs:
         # https://github.com/llvm/llvm-zorg/blob/main/buildbot/google/docker/buildbot-clangd-ubuntu-clang/Dockerfile
         ref: v1.51.3
         submodules: recursive
+    - name: Patch gRPC
+      if: matrix.config.name == 'linux'
+      shell: bash
+      run: |
+        sed 's/#if defined(ABSL_RANDOM_USE_GET_ENTROPY)/#if ABSL_RANDOM_USE_GET_ENTROPY/' grpc/third_party/abseil-cpp/absl/random/internal/seed_material.cc
     - name: Build gRPC
       run: >
         mkdir $HOME/grpc-installation
 
         mkdir grpc-build
-        sed 's/#if defined(ABSL_RANDOM_USE_GET_ENTROPY)/#if ABSL_RANDOM_USE_GET_ENTROPY/' grpc/third_party/abseil-cpp/absl/random/internal/seed_material.cc
+        
         cmake -G Ninja -S grpc -B grpc-build
         "-DgRPC_INSTALL=ON"
         "-DCMAKE_INSTALL_PREFIX=$HOME/grpc-installation"

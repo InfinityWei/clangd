@@ -5,8 +5,6 @@
 # Because the build takes more than an hour, our GITHUB_TOKEN credentials may
 # expire. A token `secrets.RELEASE_TOKEN` must exist with public_repo scope.
 name: Build release binaries
-env:
-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 on:
   # Run weekly on sunday at 21:37 UTC (arbitrary)
   schedule:
@@ -327,33 +325,27 @@ jobs:
         ${{ env.CLANGD_DIR }}/bin/clangd-index-server-monitor${{ matrix.config.binary_extension }}
         ${{ env.CLANGD_DIR }}/lib/clang
     - name: Upload clangd asset
-      uses: actions/upload-release-asset@v1.0.1
+      uses: softprops/action-gh-release@v3
+      with:
+        tag_name: ${{ env.TAG_NAME }}
+        files: clangd.zip
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-      with:
-        upload_url: ${{ env.UPLOAD_URL }}
-        asset_name: clangd-${{ matrix.config.name }}-${{ env.TAG_NAME }}.zip
-        asset_path: clangd.zip
-        asset_content_type: application/zip
     - name: Upload clangd PDB asset
       if: matrix.config.name == 'windows'
-      uses: actions/upload-release-asset@v1.0.1
+      uses: softprops/action-gh-release@v3
+      with:
+        tag_name: ${{ env.TAG_NAME }}
+        files: clangd-pdb.7z
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-      with:
-        upload_url: ${{ env.UPLOAD_URL }}
-        asset_name: clangd-debug-symbols-${{ matrix.config.name }}-${{ env.TAG_NAME }}.7z
-        asset_path: clangd-pdb.7z
-        asset_content_type: application/zip
     - name: Upload indexing-tools asset
-      uses: actions/upload-release-asset@v1.0.1
+      uses: softprops/action-gh-release@v3
+      with:
+        tag_name: ${{ env.TAG_NAME }}
+        files: indexing-tools.zip
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-      with:
-        upload_url: ${{ env.UPLOAD_URL }}
-        asset_name: clangd_indexing_tools-${{ matrix.config.name }}-${{ env.TAG_NAME }}.zip
-        asset_path: indexing-tools.zip
-        asset_content_type: application/zip
     - name: Check binary compatibility
       if: matrix.config.name == 'linux'
       run: .github/workflows/lib_compat_test.py --lib=GLIBC_2.18 "$CLANGD_DIR/bin/clangd"
